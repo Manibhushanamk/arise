@@ -506,29 +506,43 @@ document.addEventListener("DOMContentLoaded", () => {
   // CHATBOT
   // ----------------------------------------
   const handleChatSend = async () => {
-    const input = document.getElementById("chat-input");
+    const input = document.getElementById('chat-input');
     const prompt = input.value.trim();
     if (!prompt) return;
 
-    addChatMessage(prompt, "user");
-    input.value = "";
+    addChatMessage(prompt, 'user');
+    input.value = '';
+
+    const typingIndicatorHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+    addChatMessage(typingIndicatorHTML, 'bot', { id: 'typing-indicator' });
 
     try {
-      const res = await apiCall("/chatbot", "POST", { prompt });
-      addChatMessage(res.reply, "bot");
+      const res = await apiCall('/chatbot', 'POST', { prompt });
+      addChatMessage(res.reply, 'bot');
     } catch (error) {
-      addChatMessage(error.message, "bot", true);
+      addChatMessage(error.message, 'bot', { isError: true });
+    } finally {
+      const indicator = document.getElementById('typing-indicator');
+      if (indicator) {
+        indicator.remove();
+      }
     }
   };
 
-  const addChatMessage = (text, sender, isError = false) => {
-    const chatWindow = document.getElementById("chat-window");
-    const messageDiv = document.createElement("div");
+  const addChatMessage = (text, sender, options = {}) => {
+    const { isError = false, id = null } = options;
+    const chatWindow = document.getElementById('chat-window');
+    const messageDiv = document.createElement('div');
+    if (id) {
+      messageDiv.id = id;
+    }
     messageDiv.className = `chat-message ${sender}`;
-    const bubble = document.createElement("div");
-    bubble.className = "message-bubble";
-    if (isError) bubble.style.color = "red";
-    bubble.textContent = text;
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble';
+    if (isError) {
+      bubble.style.color = 'red';
+    }
+    bubble.innerHTML = text; // Use innerHTML to render the spinner
     messageDiv.appendChild(bubble);
     chatWindow.appendChild(messageDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -576,6 +590,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .getElementById("login-form")
       .addEventListener("submit", async (e) => {
         e.preventDefault();
+        const button = e.target.querySelector('button[type="submit"]');
+        button.classList.add('loading');
+        button.disabled = true;
+
         const email = document.getElementById("login-email").value;
         const password = document.getElementById("login-password").value;
         try {
@@ -583,12 +601,19 @@ document.addEventListener("DOMContentLoaded", () => {
           loginSuccess(res.token, res.name);
         } catch (error) {
           showToast(error.message, "error");
+        } finally {
+          button.classList.remove('loading');
+          button.disabled = false;
         }
       });
     document
       .getElementById("signup-form")
       .addEventListener("submit", async (e) => {
         e.preventDefault();
+        const button = e.target.querySelector('button[type="submit"]');
+        button.classList.add('loading');
+        button.disabled = true;
+
         const name = document.getElementById("signup-name").value;
         const email = document.getElementById("signup-email").value;
         const password = document.getElementById("signup-password").value;
@@ -601,6 +626,9 @@ document.addEventListener("DOMContentLoaded", () => {
           loginSuccess(res.token, res.name);
         } catch (error) {
           showToast(error.message, "error");
+        } finally {
+          button.classList.remove('loading');
+          button.disabled = false;
         }
       });
     document
