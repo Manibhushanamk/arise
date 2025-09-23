@@ -735,6 +735,33 @@ document.addEventListener("DOMContentLoaded", () => {
       .getElementById("download-pdf-btn")
       .addEventListener("click", handlePdfDownload);
 
+    document.getElementById('change-password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const button = e.target.querySelector('button[type="submit"]');
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      if (newPassword !== confirmPassword) {
+        showToast('New passwords do not match.', 'error');
+        return;
+      }
+
+      button.classList.add('loading');
+      button.disabled = true;
+
+      try {
+        const res = await apiCall('/auth/change-password', 'POST', { currentPassword, newPassword });
+        showToast(res.message, 'success');
+        e.target.reset(); // Clear the form
+      } catch (error) {
+        showToast(error.message, 'error');
+      } finally {
+        button.classList.remove('loading');
+        button.disabled = false;
+      }
+    });
+
     document.getElementById('add-education-btn').addEventListener('click', () => addResumeEntry('education-entries', 'education'));
     document.getElementById('add-experience-btn').addEventListener('click', () => addResumeEntry('experience-entries', 'experience'));
     document.getElementById('add-project-btn').addEventListener('click', () => addResumeEntry('project-entries', 'project'));
