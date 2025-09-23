@@ -245,6 +245,7 @@ app.get('/recommendations', authMiddleware, async (req, res) => {
         });
 
         scoredRoles.sort((a, b) => b.score - a.score);
+        console.log('Scored Roles:', scoredRoles); // Debugging log
         res.json(scoredRoles);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
