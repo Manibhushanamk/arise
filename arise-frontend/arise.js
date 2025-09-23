@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // CONFIG & STATE
   // ----------------------------------------
   const config = {
-    SERVER_URL: "http://localhost:5000", // Fetched from backend config
+    SERVER_URL: "https://arise-backend-2gjv.onrender.com", // Fetched from backend config
     GOOGLE_CLIENT_ID:
       "555267087741-0q9stov2plo13qojprjq005vgemnfvm9.apps.googleusercontent.com", // Fetched from backend config
     PM_SITE_URL: "https://www.pminternship.gov.in/",
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----------------------------------------
   const initGoogleSignIn = () => {
     google.accounts.id.initialize({
-      client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", // Replace with your actual client ID
+      client_id: "555267087741-0q9stov2plo13qojprjq005vgemnfvm9.apps.googleusercontent.com", // Replace with your actual client ID
       callback: handleGoogleCredentialResponse,
     });
     google.accounts.id.renderButton(
