@@ -163,6 +163,13 @@ const skillResourcesData = [
 // Seeding function
 const seedDB = async () => {
     try {
+        const roleCount = await Role.countDocuments();
+        if (roleCount > 0) {
+            console.log('Database already seeded. Exiting.');
+            mongoose.connection.close();
+            return;
+        }
+
         console.log('Clearing existing data...');
         await Role.deleteMany({});
         await SkillResource.deleteMany({});
