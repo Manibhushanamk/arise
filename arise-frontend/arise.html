@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arise - AI Career Platform</title>
+    <link rel="stylesheet" href="arise.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="logo">🚀 Arise</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-link active" data-section="dashboard-section">📊 Dashboard</a>
+            <a href="#assignment" class="nav-link" data-section="assignment-section">📝 Assessment</a>
+            <a href="#recommendations" class="nav-link" data-section="recommendations-section">💡 Recommendations</a>
+            <a href="#resume" class="nav-link" data-section="resume-section">📄 Resume Builder</a>
+            <a href="#chatbot" class="nav-link" data-section="chatbot-section">🤖 AI Chatbot</a>
+            <a href="#about" class="nav-link" data-section="about-section">ℹ️ About Us</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="theme-switcher">
+                <span>Dark Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <button id="logout-btn" class="logout-button">Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- AUTHENTICATION SECTION -->
+        <section id="auth-section" class="page-section active">
+            <div class="auth-container">
+                <div class="auth-form-container" id="login-container">
+                    <h2>Welcome Back!</h2>
+                    <p>Login to continue your journey with Arise.</p>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <div class="divider">OR</div>
+                    <div id="google-signin-button-login"></div>
+                    <p class="auth-toggle">Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+                </div>
+
+                <div class="auth-form-container" id="signup-container" style="display: none;">
+                    <h2>Join Arise</h2>
+                    <p>Start your career journey with AI-powered guidance.</p>
+                    <form id="signup-form">
+                         <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                     <div class="divider">OR</div>
+                     <div id="google-signin-button-signup"></div>
+                    <p class="auth-toggle">Already have an account? <a href="#" id="show-login">Log In</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboard-section" class="page-section">
+            <header class="page-header">
+                <h2>Dashboard</h2>
+                <p>Welcome, <span id="user-name">Student</span>! Here's your career overview.</p>
+            </header>
+            <div class="dashboard-grid">
+                <div class="card profile-summary-card">
+                    <h3>Profile Summary</h3>
+                    <p>Complete your assessment to get personalized recommendations.</p>
+                    <div id="profile-status">Status: Incomplete</div>
+                </div>
+                <div class="card resume-status-card">
+                    <h3>Resume Status</h3>
+                    <p>A great resume opens doors. Let's build yours!</p>
+                    <div id="resume-completion-status">0% Complete</div>
+                    <div class="progress-bar">
+                        <div id="resume-progress-fill" class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="card quick-nav-card" data-section="assignment-section">
+                    <h3>📝 Start Assessment</h3>
+                    <p>Tell us about your skills and goals.</p>
+                </div>
+                 <div class="card quick-nav-card" data-section="recommendations-section">
+                    <h3>💡 Get Recommendations</h3>
+                    <p>Discover roles tailored just for you.</p>
+                </div>
+                <div class="card quick-nav-card" data-section="resume-section">
+                    <h3>📄 Build Your Resume</h3>
+                    <p>Create a professional resume in minutes.</p>
+                </div>
+                <div class="card quick-nav-card" data-section="chatbot-section">
+                    <h3>🤖 Ask AI Chatbot</h3>
+                    <p>Get instant answers to your career questions.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ASSIGNMENT SECTION -->
+        <section id="assignment-section" class="page-section">
+            <header class="page-header">
+                <h2>Skills & Preferences Assessment</h2>
+                <p>This helps us find the perfect opportunities for you.</p>
+            </header>
+            <div class="card">
+                <form id="assignment-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Preferred Roles</label>
+                            <input type="text" id="role-preferences" placeholder="e.g., Frontend Developer, Data Analyst">
+                        </div>
+                        <div class="form-group">
+                            <label for="qualification">Highest Qualification</label>
+                            <select id="qualification">
+                                <option value="High School">High School</option>
+                                <option value="Undergraduate">Undergraduate</option>
+                                <option value="Postgraduate">Postgraduate</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="field-of-study">Field of Study</label>
+                            <input type="text" id="field-of-study" placeholder="e.g., Computer Science">
+                        </div>
+                         <div class="form-group">
+                            <label for="preferred-sectors">Preferred Sectors</label>
+                            <input type="text" id="preferred-sectors" placeholder="e.g., IT, Healthcare, Finance">
+                        </div>
+                        <div class="form-group">
+                            <label>Work Preference</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="work-preference" value="Remote"> Remote</label>
+                                <label><input type="radio" name="work-preference" value="On-site"> On-site</label>
+                                <label><input type="radio" name="work-preference" value="Hybrid"> Hybrid</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                             <label>Preferred Duration</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="duration" value="Short-term"> Short-term (1-3 months)</label>
+                                <label><input type="radio" name="duration" value="Long-term"> Long-term (6+ months)</label>
+                            </div>
+                        </div>
+                         <div class="form-group form-group-full">
+                            <label for="skills">Your Skills (select many)</label>
+                             <div class="skills-checkbox-grid">
+                                <!-- Dynamically populated -->
+                             </div>
+                        </div>
+                        <div class="form-group form-group-full">
+                            <label for="free-text-skills">Any other skills?</label>
+                            <input type="text" id="free-text-skills" placeholder="e.g., Public Speaking, Project Management">
+                        </div>
+                        <div class="form-group">
+                            <label>Digital Confidence</label>
+                             <div class="radio-group">
+                                <label><input type="radio" name="digital-confidence" value="Beginner"> Beginner</label>
+                                <label><input type="radio" name="digital-confidence" value="Intermediate"> Intermediate</label>
+                                <label><input type="radio" name="digital-confidence" value="Advanced"> Advanced</label>
+                            </div>
+                        </div>
+                         <div class="form-group form-group-full">
+                            <label for="additional-info">Additional Information</label>
+                            <textarea id="additional-info" rows="4" placeholder="Anything else you'd like us to know?"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save & Find My Match</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- RECOMMENDATIONS SECTION -->
+        <section id="recommendations-section" class="page-section">
+            <header class="page-header">
+                <h2>Your Recommended Roles</h2>
+                <p>Based on your assessment, here are some roles you might love.</p>
+            </header>
+            <div id="recommendations-container" class="recommendations-grid">
+                <!-- Role cards will be inserted here -->
+            </div>
+            <div id="missing-skills-container" class="missing-skills-section">
+                <h2>Bridge Your Skill Gaps</h2>
+                <p>Here are some resources to learn the skills you're missing for top roles.</p>
+                <div id="skill-resources-container" class="resources-grid">
+                    <!-- Skill resource cards will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- RESUME BUILDER SECTION -->
+        <section id="resume-section" class="page-section">
+             <header class="page-header">
+                <h2>Resume Builder</h2>
+                <p>Fill in your details to create a professional resume.</p>
+            </header>
+            <div class="card">
+                <form id="resume-form">
+                    <h3>Personal Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>Full Name</label><input type="text" id="resume-name" placeholder="Your Name"></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="resume-email" placeholder="your.email@example.com"></div>
+                        <div class="form-group"><label>Phone</label><input type="tel" id="resume-phone" placeholder="Your Phone Number"></div>
+                        <div class="form-group"><label>LinkedIn Profile</label><input type="url" id="resume-linkedin" placeholder="linkedin.com/in/yourprofile"></div>
+                    </div>
+                    
+                    <h3>Professional Summary</h3>
+                    <div class="form-group">
+                        <textarea id="resume-summary" rows="4" placeholder="A brief summary about your professional background..."></textarea>
+                    </div>
+
+                    <h3>Education</h3>
+                    <div id="education-entries"></div>
+                    <button type="button" class="btn btn-secondary" id="add-education-btn">Add Education</button>
+                    
+                    <h3>Experience</h3>
+                    <div id="experience-entries"></div>
+                    <button type="button" class="btn btn-secondary" id="add-experience-btn">Add Experience</button>
+
+                    <h3>Projects</h3>
+                    <div id="project-entries"></div>
+                    <button type="button" class="btn btn-secondary" id="add-project-btn">Add Project</button>
+                    
+                    <h3>Skills</h3>
+                    <div class="form-group">
+                        <input type="text" id="resume-skills" placeholder="Comma-separated skills, e.g., JavaScript, Python, Figma">
+                    </div>
+                    
+                    <div class="resume-actions">
+                        <button type="submit" class="btn btn-primary">Save Resume</button>
+                        <button type="button" id="download-pdf-btn" class="btn">Download as PDF</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <!-- CHATBOT SECTION -->
+        <section id="chatbot-section" class="page-section">
+            <header class="page-header">
+                <h2>AI Career Chatbot</h2>
+                <p>Have questions? Ask Arise AI for instant career advice.</p>
+            </header>
+            <div class="chatbot-container">
+                <div class="chat-window" id="chat-window">
+                    <div class="chat-message bot">
+                        <div class="message-bubble">Hello! I'm Arise, your AI career assistant. How can I help you today?</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Ask about resumes, interviews, skills...">
+                    <button id="chat-send-btn" class="btn">Send</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT US SECTION -->
+        <section id="about-section" class="page-section">
+            <header class="page-header">
+                <h2>About Arise</h2>
+                <p>Our mission, our team, and our journey.</p>
+            </header>
+            <div class="card">
+                <h3>Our Project</h3>
+                <p>Arise is an AI-powered career platform designed for students, created for the PM Internship Scheme Hackathon. Our goal is to bridge the gap between education and employment by providing students with personalized career guidance, skill-building resources, and tools to create a professional identity. We leverage the power of Google's Gemini AI to offer intelligent recommendations and support.</p>
+                <h3>Our Team</h3>
+                <p>We are a passionate team of developers and designers dedicated to empowering the next generation of professionals. This project is a culmination of our skills, creativity, and commitment to making a positive impact.</p>
+                <h3>Hackathon Journey</h3>
+                <p>This project represents our Round 2 submission, an evolution from our initial concept. We've focused on building a robust, scalable, and user-friendly platform that addresses the real-world challenges students face in their career journeys. We're excited to present Arise and hope it helps countless students rise to their full potential.</p>
+            </div>
+        </section>
+    </main>
+    
+    <div id="toast-notification" class="toast"></div>
+
+    <script src="arise.js"></script>
+</body>
+</html>
