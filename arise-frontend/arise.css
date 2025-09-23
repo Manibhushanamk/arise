@@ -163,7 +163,7 @@ input:checked + .slider { background-color: var(--primary-color); }
 input:checked + .slider:before { transform: translateX(20px); }
 
 /* Auth Section */
-#auth-section { display: flex; justify-content: center; align-items: center; min-height: 100vh; margin-left: -260px; width: 100vw; }
+#auth-section.active { display: flex; justify-content: center; align-items: center; min-height: 100vh; margin-left: -260px; width: 100vw; }
 .auth-container { max-width: 450px; width: 100%; }
 .auth-form-container { background-color: var(--card-bg-light); padding: 2.5rem; border-radius: 12px; box-shadow: var(--shadow); }
 body.dark-mode .auth-form-container { background-color: var(--card-bg-dark); }
