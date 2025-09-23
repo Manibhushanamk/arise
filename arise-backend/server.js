@@ -10,7 +10,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { GoogleGenAI } from '@google/genai';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import config from './config';
+import config from './config.js';
 
 // eslint-disable-next-line no-underscore-dangle
 const __filename = fileURLToPath(import.meta.url);
