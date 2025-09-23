@@ -423,6 +423,47 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----------------------------------------
   const { jsPDF } = window.jspdf;
 
+  const addResumeEntry = (containerId, type) => {
+    const container = document.getElementById(containerId);
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'resume-entry';
+    let fields = '';
+
+    switch (type) {
+      case 'education':
+        fields = `
+          <div class="form-grid">
+            <div class="form-group"><input type="text" class="resume-institution" placeholder="Institution"></div>
+            <div class="form-group"><input type="text" class="resume-degree" placeholder="Degree"></div>
+            <div class="form-group"><input type="text" class="resume-field" placeholder="Field of Study"></div>
+            <div class="form-group"><input type="text" class="resume-gradYear" placeholder="Graduation Year"></div>
+          </div>
+        `;
+        break;
+      case 'experience':
+        fields = `
+          <div class="form-grid">
+            <div class="form-group"><input type="text" class="resume-company" placeholder="Company"></div>
+            <div class="form-group"><input type="text" class="resume-role" placeholder="Role"></div>
+            <div class="form-group form-group-full"><input type="text" class="resume-duration" placeholder="Duration (e.g., 2022-2023)"></div>
+          </div>
+          <div class="form-group"><textarea class="resume-description" placeholder="Description of your role..."></textarea></div>
+        `;
+        break;
+      case 'project':
+        fields = `
+          <div class="form-group"><input type="text" class="resume-project-title" placeholder="Project Title"></div>
+          <div class="form-group"><textarea class="resume-project-description" placeholder="Project description..."></textarea></div>
+          <div class="form-group"><input type="url" class="resume-project-link" placeholder="Project Link"></div>
+        `;
+        break;
+      default:
+        return;
+    }
+    entryDiv.innerHTML = fields;
+    container.appendChild(entryDiv);
+  };
+
   const handleResumeSave = async (e) => {
     e.preventDefault();
     const resumeData = getResumeDataFromForm();
@@ -470,33 +511,86 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const getResumeDataFromForm = () => {
+    const education = Array.from(document.querySelectorAll('#education-entries .resume-entry')).map((entry) => ({
+      institution: entry.querySelector('.resume-institution').value,
+      degree: entry.querySelector('.resume-degree').value,
+      field: entry.querySelector('.resume-field').value,
+      gradYear: entry.querySelector('.resume-gradYear').value,
+    }));
+
+    const experience = Array.from(document.querySelectorAll('#experience-entries .resume-entry')).map((entry) => ({
+      company: entry.querySelector('.resume-company').value,
+      role: entry.querySelector('.resume-role').value,
+      duration: entry.querySelector('.resume-duration').value,
+      description: entry.querySelector('.resume-description').value,
+    }));
+
+    const projects = Array.from(document.querySelectorAll('#project-entries .resume-entry')).map((entry) => ({
+      title: entry.querySelector('.resume-project-title').value,
+      description: entry.querySelector('.resume-project-description').value,
+      link: entry.querySelector('.resume-project-link').value,
+    }));
+
     return {
       personalInfo: {
-        name: document.getElementById("resume-name").value,
-        email: document.getElementById("resume-email").value,
-        phone: document.getElementById("resume-phone").value,
-        linkedin: document.getElementById("resume-linkedin").value,
+        name: document.getElementById('resume-name').value,
+        email: document.getElementById('resume-email').value,
+        phone: document.getElementById('resume-phone').value,
+        linkedin: document.getElementById('resume-linkedin').value,
       },
-      summary: document.getElementById("resume-summary").value,
+      summary: document.getElementById('resume-summary').value,
       skills: document
-        .getElementById("resume-skills")
-        .value.split(",")
+        .getElementById('resume-skills')
+        .value.split(',')
         .map((s) => s.trim()),
-      // Add education, experience, projects data collection here
+      education,
+      experience,
+      projects,
     };
   };
 
   const loadResume = async () => {
     try {
-      const data = await apiCall("/resume");
-      document.getElementById("resume-name").value = data.personalInfo.name;
-      document.getElementById("resume-email").value = data.personalInfo.email;
-      document.getElementById("resume-phone").value = data.personalInfo.phone;
-      document.getElementById("resume-linkedin").value =
-        data.personalInfo.linkedin;
-      document.getElementById("resume-summary").value = data.summary;
-      document.getElementById("resume-skills").value = data.skills.join(", ");
-      // Populate dynamic fields
+      const data = await apiCall('/resume');
+      // Clear existing dynamic entries
+      document.getElementById('education-entries').innerHTML = '';
+      document.getElementById('experience-entries').innerHTML = '';
+      document.getElementById('project-entries').innerHTML = '';
+
+      if (data.personalInfo) {
+        document.getElementById('resume-name').value = data.personalInfo.name || '';
+        document.getElementById('resume-email').value = data.personalInfo.email || '';
+        document.getElementById('resume-phone').value = data.personalInfo.phone || '';
+        document.getElementById('resume-linkedin').value = data.personalInfo.linkedin || '';
+      }
+      document.getElementById('resume-summary').value = data.summary || '';
+      document.getElementById('resume-skills').value = (data.skills || []).join(', ');
+
+      (data.education || []).forEach((edu) => {
+        addResumeEntry('education-entries', 'education');
+        const entry = document.querySelector('#education-entries .resume-entry:last-child');
+        entry.querySelector('.resume-institution').value = edu.institution;
+        entry.querySelector('.resume-degree').value = edu.degree;
+        entry.querySelector('.resume-field').value = edu.field;
+        entry.querySelector('.resume-gradYear').value = edu.gradYear;
+      });
+
+      (data.experience || []).forEach((exp) => {
+        addResumeEntry('experience-entries', 'experience');
+        const entry = document.querySelector('#experience-entries .resume-entry:last-child');
+        entry.querySelector('.resume-company').value = exp.company;
+        entry.querySelector('.resume-role').value = exp.role;
+        entry.querySelector('.resume-duration').value = exp.duration;
+        entry.querySelector('.resume-description').value = exp.description;
+      });
+
+      (data.projects || []).forEach((proj) => {
+        addResumeEntry('project-entries', 'project');
+        const entry = document.querySelector('#project-entries .resume-entry:last-child');
+        entry.querySelector('.resume-project-title').value = proj.title;
+        entry.querySelector('.resume-project-description').value = proj.description;
+        entry.querySelector('.resume-project-link').value = proj.link;
+      });
     } catch (e) {
       // Resume not found, form is empty
     }
@@ -640,6 +734,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document
       .getElementById("download-pdf-btn")
       .addEventListener("click", handlePdfDownload);
+
+    document.getElementById('add-education-btn').addEventListener('click', () => addResumeEntry('education-entries', 'education'));
+    document.getElementById('add-experience-btn').addEventListener('click', () => addResumeEntry('experience-entries', 'experience'));
+    document.getElementById('add-project-btn').addEventListener('click', () => addResumeEntry('project-entries', 'project'));
 
     // Chatbot
     document
