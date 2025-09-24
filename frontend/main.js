@@ -374,6 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const Recommendations = {
+        init() {
+            store.subscribe(this.render);
+        },
         fetch: async () => {
             try {
                 const data = await apiCall('/recommendations');
@@ -602,6 +605,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const prompt = e.target.dataset.prompt;
                 if(prompt) this.sendMessage(prompt);
             });
+            store.subscribe(this.render);
          },
          render() {
             const { history, isLoading } = store.getState().chatbot;
@@ -661,10 +665,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ResumeBuilder.init();
             Chatbot.init();
 
-            store.subscribe(Dashboard.render);
             store.subscribe(ResumeBuilder.renderForm);
-            store.subscribe(ResumeSyncer.sync);
-            store.subscribe(Chatbot.render);
+            store.subscribe(() => ResumeSyncer.sync());
 
             document.querySelector('.sidebar-nav')?.addEventListener('click', (e) => {
                 const link = e.target.closest('.nav-link');
