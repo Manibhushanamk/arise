@@ -195,7 +195,7 @@ app.post('/auth/google', async (req, res) => {
   }
 });
 
-// Change Password
+// Change or Create Password
 app.post('/auth/change-password', authMiddleware, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -205,10 +205,19 @@ app.post('/auth/change-password', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Incorrect current password.' });
+    const hadPassword = !!user.password;
+
+    // If user has a password, verify the current one
+    if (hadPassword) {
+      if (!currentPassword) {
+        return res.status(400).json({ message: 'Current password is required.' });
+      }
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Incorrect current password.' });
+      }
     }
+    // If user has no password (e.g., Google sign-in), they can create one without a current password.
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
@@ -216,7 +225,50 @@ app.post('/auth/change-password', authMiddleware, async (req, res) => {
     user.password = hashedPassword;
     await user.save();
 
-    return res.json({ message: 'Password changed successfully.' });
+    const message = hadPassword ? 'Password changed successfully.' : 'Password created successfully.';
+    return res.json({ message });
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+// Get user details
+app.get('/auth/user', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    const userObject = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        googleId: user.googleId,
+        hasPassword: !!user.password
+    };
+    return res.json(userObject);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+// Update user details
+app.post('/auth/user/update', authMiddleware, async (req, res) => {
+  try {
+    const { name } = req.body;
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    user.name = name || user.name;
+    await user.save();
+
+    // Return a new token with the updated name
+    const token = jwt.sign({ userId: user._id, name: user.name, email: user.email }, config.JWT_SECRET, { expiresIn: '7d' });
+    return res.json({ message: 'Profile updated successfully.', token, name: user.name });
+
   } catch (error) {
     return res.status(500).json({ message: 'Server error', error });
   }

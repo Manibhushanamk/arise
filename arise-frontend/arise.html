@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
 
     <aside class="sidebar">
@@ -62,7 +64,7 @@
                     <h2>Join Arise</h2>
                     <p>Start your career journey with AI-powered guidance.</p>
                     <form id="signup-form">
-                         <div class="form-group">
+                        <div class="form-group">
                             <label for="signup-name">Full Name</label>
                             <input type="text" id="signup-name" required>
                         </div>
@@ -76,8 +78,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Sign Up</button>
                     </form>
-                     <div class="divider">OR</div>
-                     <div id="google-signin-button-signup"></div>
+                    <div class="divider">OR</div>
+                    <div id="google-signin-button-signup"></div>
                     <p class="auth-toggle">Already have an account? <a href="#" id="show-login">Log In</a></p>
                 </div>
             </div>
@@ -107,7 +109,7 @@
                     <h3>📝 Start Assessment</h3>
                     <p>Tell us about your skills and goals.</p>
                 </div>
-                 <div class="card quick-nav-card" data-section="recommendations-section">
+                <div class="card quick-nav-card" data-section="recommendations-section">
                     <h3>💡 Get Recommendations</h3>
                     <p>Discover roles tailored just for you.</p>
                 </div>
@@ -121,7 +123,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- ASSIGNMENT SECTION -->
         <section id="assignment-section" class="page-section">
             <header class="page-header">
@@ -147,7 +149,7 @@
                             <label for="field-of-study">Field of Study</label>
                             <input type="text" id="field-of-study" placeholder="e.g., Computer Science">
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label for="preferred-sectors">Preferred Sectors</label>
                             <input type="text" id="preferred-sectors" placeholder="e.g., IT, Healthcare, Finance">
                         </div>
@@ -160,17 +162,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                             <label>Preferred Duration</label>
+                            <label>Preferred Duration</label>
                             <div class="radio-group">
                                 <label><input type="radio" name="duration" value="Short-term"> Short-term (1-3 months)</label>
                                 <label><input type="radio" name="duration" value="Long-term"> Long-term (6+ months)</label>
                             </div>
                         </div>
-                         <div class="form-group form-group-full">
+                        <div class="form-group form-group-full">
                             <label for="skills">Your Skills (select many)</label>
-                             <div class="skills-checkbox-grid">
+                            <div class="skills-checkbox-grid">
                                 <!-- Dynamically populated -->
-                             </div>
+                            </div>
                         </div>
                         <div class="form-group form-group-full">
                             <label for="free-text-skills">Any other skills?</label>
@@ -178,13 +180,13 @@
                         </div>
                         <div class="form-group">
                             <label>Digital Confidence</label>
-                             <div class="radio-group">
+                            <div class="radio-group">
                                 <label><input type="radio" name="digital-confidence" value="Beginner"> Beginner</label>
                                 <label><input type="radio" name="digital-confidence" value="Intermediate"> Intermediate</label>
                                 <label><input type="radio" name="digital-confidence" value="Advanced"> Advanced</label>
                             </div>
                         </div>
-                         <div class="form-group form-group-full">
+                        <div class="form-group form-group-full">
                             <label for="additional-info">Additional Information</label>
                             <textarea id="additional-info" rows="4" placeholder="Anything else you'd like us to know?"></textarea>
                         </div>
@@ -214,7 +216,7 @@
 
         <!-- RESUME BUILDER SECTION -->
         <section id="resume-section" class="page-section">
-             <header class="page-header">
+            <header class="page-header">
                 <h2>Resume Builder</h2>
                 <p>Fill in your details to create a professional resume.</p>
             </header>
@@ -227,7 +229,7 @@
                         <div class="form-group"><label>Phone</label><input type="tel" id="resume-phone" placeholder="Your Phone Number"></div>
                         <div class="form-group"><label>LinkedIn Profile</label><input type="url" id="resume-linkedin" placeholder="linkedin.com/in/yourprofile"></div>
                     </div>
-                    
+
                     <h3>Professional Summary</h3>
                     <div class="form-group">
                         <textarea id="resume-summary" rows="4" placeholder="A brief summary about your professional background..."></textarea>
@@ -236,7 +238,7 @@
                     <h3>Education</h3>
                     <div id="education-entries"></div>
                     <button type="button" class="btn btn-secondary" id="add-education-btn">Add Education</button>
-                    
+
                     <h3>Experience</h3>
                     <div id="experience-entries"></div>
                     <button type="button" class="btn btn-secondary" id="add-experience-btn">Add Experience</button>
@@ -244,12 +246,12 @@
                     <h3>Projects</h3>
                     <div id="project-entries"></div>
                     <button type="button" class="btn btn-secondary" id="add-project-btn">Add Project</button>
-                    
+
                     <h3>Skills</h3>
                     <div class="form-group">
                         <input type="text" id="resume-skills" placeholder="Comma-separated skills, e.g., JavaScript, Python, Figma">
                     </div>
-                    
+
                     <div class="resume-actions">
                         <button type="submit" class="btn btn-primary">Save Resume</button>
                         <button type="button" id="download-pdf-btn" class="btn">Download as PDF</button>
@@ -257,7 +259,7 @@
                 </form>
             </div>
         </section>
-        
+
         <!-- CHATBOT SECTION -->
         <section id="chatbot-section" class="page-section">
             <header class="page-header">
@@ -300,9 +302,9 @@
                 <p>Manage your account settings.</p>
             </header>
             <div class="card">
-                <h3>Change Password</h3>
+                <h3 id="password-form-title">Change Password</h3>
                 <form id="change-password-form">
-                    <div class="form-group">
+                    <div id="current-password-group" class="form-group">
                         <label for="current-password">Current Password</label>
                         <input type="password" id="current-password" required>
                     </div>
@@ -319,9 +321,10 @@
             </div>
         </section>
     </main>
-    
+
     <div id="toast-notification" class="toast"></div>
 
     <script src="arise.js"></script>
 </body>
+
 </html>
