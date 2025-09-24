@@ -8,7 +8,7 @@ import config from '../config.js';
 
 const router = express.Router();
 const genAI = new GoogleGenerativeAI(config.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 // --- AI-Powered Recommendation Logic ---
 const getAiRecommendations = async (assignment) => {
