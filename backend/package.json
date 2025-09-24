@@ -10,7 +10,7 @@
     "seed": "node seed.js"
   },
   "dependencies": {
-    "@google/genai": "^0.10.0",
+    "@google/generative-ai": "^0.24.1",
     "arise": "file:..",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

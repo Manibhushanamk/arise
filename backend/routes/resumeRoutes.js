@@ -1,6 +1,6 @@
 import express from 'express';
 import Resume from '../models/resumeModel.js';
-import { protect } from '../server.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 

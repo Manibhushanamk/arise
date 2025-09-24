@@ -1,9 +1,9 @@
 import express from 'express';
-import { GoogleGenerativeAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import Assignment from '../models/assignmentModel.js';
 import Role from '../models/roleModel.js';
 import SkillResource from '../models/skillResourceModel.js';
-import { protect } from '../server.js';
+import { protect } from '../middleware/authMiddleware.js';
 import config from '../config.js';
 
 const router = express.Router();

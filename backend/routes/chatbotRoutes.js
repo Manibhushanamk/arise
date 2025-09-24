@@ -1,7 +1,7 @@
 import express from 'express';
-import { GoogleGenerativeAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import config from '../config.js';
-import { protect } from '../server.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 const genAI = new GoogleGenerativeAI(config.GEMINI_API_KEY);

@@ -1,6 +1,6 @@
 import express from 'express';
 import Assignment from '../models/assignmentModel.js';
-import { protect } from '../server.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
