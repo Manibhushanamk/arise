@@ -7,25 +7,23 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "seed": "node seed.js",
-    "build": "npm install",
-    "lint": "eslint . --ext .js"
+    "seed": "node seed.js"
   },
   "dependencies": {
-    "@google/genai": "^0.15.0",
+    "@google/genai": "^0.10.0",
+    "arise": "file:..",
     "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "google-auth-library": "^9.11.0",
+    "google-auth-library": "^9.6.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.1"
+    "mongoose": "^8.2.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.2",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1"
+    "eslint-plugin-import": "^2.29.1",
+    "nodemon": "^3.1.0"
   }
 }

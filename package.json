@@ -1,5 +1,18 @@
 {
+  "name": "arise",
+  "version": "1.0.0",
+  "description": "AI-powered career platform for students",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+  },
+  "author": "Your Name",
+  "license": "ISC",
   "dependencies": {
-    "init": "^0.1.2"
+    "concurrently": "^7.0.0"
   }
 }

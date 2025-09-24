@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arise - AI Powered Career Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">🚀 Arise</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active" data-section="dashboard-section"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
+                <a href="#" class="nav-link" data-section="assignment-section"><i class="fas fa-edit"></i><span>Assessment</span></a>
+                <a href="#" class="nav-link" data-section="recommendations-section"><i class="fas fa-lightbulb"></i><span>Recommendations</span></a>
+                <a href="#" class="nav-link" data-section="resume-section"><i class="fas fa-file-alt"></i><span>Resume Builder</span></a>
+                <a href="#" class="nav-link" data-section="chatbot-section"><i class="fas fa-robot"></i><span>AI Chatbot</span></a>
+                <a href="#" class="nav-link" data-section="about-section"><i class="fas fa-info-circle"></i><span>About Us</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="theme-switcher">
+                    <span>Dark Mode</span>
+                    <label class="switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button id="logout-btn" class="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section id="auth-section" class="page-section">
+                <div class="auth-container">
+                    <div class="auth-form-container" id="login-container">
+                        <h2>Welcome Back!</h2>
+                        <p>Login to continue your journey with Arise.</p>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="login-email">Email</label>
+                                <input type="email" id="login-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                        <div class="divider">OR</div>
+                        <div id="google-signin-button-login"></div>
+                        <p class="auth-toggle">Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+                    </div>
+
+                    <div class="auth-form-container" id="signup-container" style="display: none;">
+                        <h2>Join Arise</h2>
+                        <p>Start your career journey with AI-powered guidance.</p>
+                        <form id="signup-form">
+                             <div class="form-group">
+                                <label for="signup-name">Full Name</label>
+                                <input type="text" id="signup-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-email">Email</label>
+                                <input type="email" id="signup-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-password">Password</label>
+                                <input type="password" id="signup-password" minlength="6" required>
+                                <small>Password must be at least 6 characters long.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </form>
+                         <div class="divider">OR</div>
+                         <div id="google-signin-button-signup"></div>
+                        <p class="auth-toggle">Already have an account? <a href="#" id="show-login">Log In</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dashboard-section" class="page-section">
+                <header class="page-header">
+                    <h2>Dashboard</h2>
+                    <p>Welcome, <span id="user-name">Student</span>! Here's your career overview.</p>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="card profile-summary-card">
+                        <h3><i class="fas fa-user-check"></i> Profile Status</h3>
+                        <p>Complete your assessment to get personalized recommendations.</p>
+                        <div id="profile-status">Status: Incomplete</div>
+                    </div>
+                    <div class="card resume-status-card">
+                        <h3><i class="fas fa-file-signature"></i> Resume Status</h3>
+                        <p>A great resume opens doors. Let's build yours!</p>
+                        <div id="resume-completion-status">0% Complete</div>
+                        <div class="progress-bar">
+                            <div id="resume-progress-fill" class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="card gamification-card">
+                        <h3><i class="fas fa-chart-line"></i> Your Progress</h3>
+                        <div id="gamification-content">
+                            </div>
+                    </div>
+                    <div class="card quick-nav-card" data-section="assignment-section">
+                        <h3>📝 Start Assessment</h3>
+                        <p>Tell us about your skills and goals.</p>
+                    </div>
+                     <div class="card quick-nav-card" data-section="recommendations-section">
+                        <h3>💡 Get Recommendations</h3>
+                        <p>Discover roles tailored just for you.</p>
+                    </div>
+                    <div class="card quick-nav-card" data-section="resume-section">
+                        <h3>📄 Build Your Resume</h3>
+                        <p>Create a professional resume in minutes.</p>
+                    </div>
+                    <div class="card quick-nav-card" data-section="chatbot-section">
+                        <h3>🤖 Ask AI Chatbot</h3>
+                        <p>Get instant answers to your career questions.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="assignment-section" class="page-section">
+                <header class="page-header">
+                    <h2>Skills & Preferences Assessment</h2>
+                    <p>This helps us find the perfect opportunities for you from the PM Internship Portal.</p>
+                </header>
+                <div class="card">
+                    <form id="assignment-form">
+                         </form>
+                </div>
+            </section>
+
+            <section id="recommendations-section" class="page-section">
+                <header class="page-header">
+                    <h2>Your Recommended Roles</h2>
+                    <p>Based on your assessment, here are some roles from the PM Internship Portal.</p>
+                </header>
+                <div id="recommendations-container" class="recommendations-grid">
+                    </div>
+                <div id="missing-skills-container" class="missing-skills-section">
+                     </div>
+            </section>
+
+            <section id="resume-section" class="page-section">
+                <header class="page-header">
+                    <h2>Resume Builder</h2>
+                    <p>Create a standout resume with our live editor.</p>
+                </header>
+                <div class="resume-builder-layout">
+                    <div class="resume-form-container card">
+                        <form id="resume-form">
+                            </form>
+                    </div>
+                    <div class="resume-preview-container">
+                        <div id="resume-preview-pane" class="card">
+                            </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="chatbot-section" class="page-section">
+                <header class="page-header">
+                    <h2>AI Career Chatbot</h2>
+                    <p>Your personal AI career advisor. Ask anything!</p>
+                </header>
+                <div class="chatbot-container">
+                    <div class="chat-window" id="chat-window">
+                        <div class="chat-message bot">
+                            <div class="avatar"><i class="fas fa-robot"></i></div>
+                            <div class="message-bubble">Hello! I'm Arise, your AI career assistant. How can I help you today?</div>
+                        </div>
+                    </div>
+                    <div id="suggested-prompts" class="suggested-prompts-container">
+                        <button class="prompt-chip" data-prompt="Help me write a professional summary for my resume.">Write a professional summary</button>
+                        <button class="prompt-chip" data-prompt="What are some common interview questions for a software developer intern?">Interview questions for SWE</button>
+                        <button class="prompt-chip" data-prompt="How can I improve my LinkedIn profile?">Improve my LinkedIn</button>
+                    </div>
+                    <div class="chat-input-area">
+                        <textarea id="chat-input" placeholder="Ask about resumes, interviews, skills..." rows="1"></textarea>
+                        <button id="chat-send-btn" class="btn btn-primary" aria-label="Send Message"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about-section" class="page-section">
+                <header class="page-header">
+                    <h2>About Arise</h2>
+                    <p>Our mission, our team, and our hackathon journey.</p>
+                </header>
+                <div class="card">
+                    <h3>Our Project</h3>
+                    <p>Arise is an AI-powered career platform designed for students, created for the PM Internship Scheme Hackathon. Our goal is to bridge the gap between education and employment by providing students with personalized career guidance, skill-building resources, and tools to create a professional identity. We leverage the power of Google's Gemini AI to offer intelligent recommendations and support.</p>
+                    <h3>Our Team</h3>
+                    <p>We are a passionate team of developers and designers dedicated to empowering the next generation of professionals. This project is a culmination of our skills, creativity, and commitment to making a positive impact.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="toast-notification" class="toast"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>
